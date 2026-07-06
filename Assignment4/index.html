@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sole — Sneaker Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="logo" onclick="showPage('home')">Sole.</a>
+      <div class="nav-links">
+        <a href="#" onclick="showPage('shop')">Shop</a>
+        <a href="#" onclick="showPage('cart')" id="cartLink">Cart (<span id="cartCount">0</span>)</a>
+        <a href="#" onclick="showPage('survey')">Survey</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HOME PAGE -->
+  <div id="page-home" class="page">
+    <header>
+      <div class="promo-banner">🔥 Summer Sale — Up to 40% off select styles. <a href="#" onclick="showPage('shop')">Shop now</a></div>
+      <h1>Find your next<br/>pair.</h1>
+      <p>Premium sneakers for every style. New drops every week.</p>
+      <a href="#" class="btn-main" onclick="showPage('shop')">Browse All Sneakers</a>
+    </header>
+  </div>
+
+  <!-- SHOP PAGE -->
+  <div id="page-shop" class="page hidden">
+    <section>
+      <h2>Shop</h2>
+
+      <!-- Faceted search -->
+      <div class="filters">
+        <div class="filter-group">
+          <span class="filter-label">Brand</span>
+          <div class="filter-options" id="brandFilter">
+            <button class="filter-btn active" data-value="all">All</button>
+            <button class="filter-btn" data-value="Nike">Nike</button>
+            <button class="filter-btn" data-value="Adidas">Adidas</button>
+            <button class="filter-btn" data-value="New Balance">New Balance</button>
+            <button class="filter-btn" data-value="Vans">Vans</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">Category</span>
+          <div class="filter-options" id="categoryFilter">
+            <button class="filter-btn active" data-value="all">All</button>
+            <button class="filter-btn" data-value="Running">Running</button>
+            <button class="filter-btn" data-value="Casual">Casual</button>
+            <button class="filter-btn" data-value="Basketball">Basketball</button>
+            <button class="filter-btn" data-value="Skate">Skate</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">Price</span>
+          <div class="filter-options" id="priceFilter">
+            <button class="filter-btn active" data-value="all">All</button>
+            <button class="filter-btn" data-value="under100">Under $100</button>
+            <button class="filter-btn" data-value="100to150">$100 - $150</button>
+            <button class="filter-btn" data-value="over150">Over $150</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">Size</span>
+          <div class="filter-options" id="sizeFilter">
+            <button class="filter-btn active" data-value="all">All</button>
+            <button class="filter-btn" data-value="8">8</button>
+            <button class="filter-btn" data-value="9">9</button>
+            <button class="filter-btn" data-value="10">10</button>
+            <button class="filter-btn" data-value="11">11</button>
+            <button class="filter-btn" data-value="12">12</button>
+          </div>
+        </div>
+      </div>
+
+      <p id="resultCount" style="color:#555; font-size:0.8rem; margin-bottom:20px;"></p>
+
+      <div id="productGrid" class="product-grid"></div>
+    </section>
+  </div>
+
+  <!-- PRODUCT DETAIL PAGE -->
+  <div id="page-product" class="page hidden">
+    <section>
+      <a href="#" class="back-link" onclick="showPage('shop')">← Back to shop</a>
+      <div id="productDetail"></div>
+    </section>
+  </div>
+
+  <!-- CART PAGE -->
+  <div id="page-cart" class="page hidden">
+    <section>
+      <h2>Your Cart</h2>
+      <div id="cartItems"></div>
+      <div id="cartEmpty" class="muted-text">Your cart is empty.</div>
+      <div id="cartSummary" class="hidden">
+        <div class="cart-total">Total: <strong id="cartTotal"></strong></div>
+        <button class="btn-main" onclick="showPage('checkout')">Checkout</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- CHECKOUT PAGE -->
+  <div id="page-checkout" class="page hidden">
+    <section>
+      <h2>Checkout</h2>
+
+      <!-- Step indicator -->
+      <div class="step-indicator">
+        <div class="step-dot active" id="dot1">1</div>
+        <div class="step-line"></div>
+        <div class="step-dot" id="dot2">2</div>
+        <div class="step-line"></div>
+        <div class="step-dot" id="dot3">3</div>
+      </div>
+      <div class="step-labels">
+        <span>Shipping</span>
+        <span>Payment</span>
+        <span>Confirm</span>
+      </div>
+
+      <!-- Step 1: Shipping -->
+      <div id="checkout-step1">
+        <p class="step-title">Step 1 of 3 — Shipping details</p>
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="shipFirst" placeholder="First Name" />
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="shipLast" placeholder="Last Name" />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="shipEmail" placeholder="you@example.com" />
+        </div>
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" id="shipAddress" placeholder="123 Main St" />
+        </div>
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" id="shipCity" placeholder="Ottawa" />
+        </div>
+        <div class="form-group">
+          <label>Postal Code</label>
+          <input type="text" id="shipPostal" placeholder="K1A 0A1" />
+        </div>
+        <div class="btn-row">
+          <button class="btn-main" onclick="goCheckoutStep(2)">Next: Payment</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Payment -->
+      <div id="checkout-step2" class="hidden">
+        <p class="step-title">Step 2 of 3 — Payment</p>
+        <div class="form-group">
+          <label>Cardholder Name</label>
+          <input type="text" id="payName" placeholder="Name on card" />
+        </div>
+        <div class="form-group">
+          <label>Card Number</label>
+          <input type="text" id="payCard" placeholder="xxxx xxxx xxxx xxxx" maxlength="19" />
+        </div>
+        <div class="form-group">
+          <label>Expiry</label>
+          <input type="text" id="payExpiry" placeholder="MM/YY" maxlength="5" />
+        </div>
+        <div class="form-group">
+          <label>CVV</label>
+          <input type="text" id="payCvv" placeholder="xxx" maxlength="3" />
+        </div>
+        <div class="btn-row">
+          <button class="btn-small" onclick="goCheckoutStep(1)">Back</button>
+          <button class="btn-main" onclick="goCheckoutStep(3)">Review Order</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Confirm -->
+      <div id="checkout-step3" class="hidden">
+        <p class="step-title">Step 3 of 3 — Review your order</p>
+        <div id="orderSummary"></div>
+        <div class="btn-row" style="margin-top:20px;">
+          <button class="btn-small" onclick="goCheckoutStep(2)">Back</button>
+          <button class="btn-main" onclick="placeOrder()">Place Order</button>
+        </div>
+      </div>
+
+      <!-- Confirmation -->
+      <div id="checkout-confirm" class="hidden">
+        <h3 style="color:#ccc; margin-bottom:10px;">Order confirmed!</h3>
+        <p>Thanks for your order. A confirmation will be sent to your email shortly.</p>
+        <div class="btn-row" style="margin-top:20px;">
+          <button class="btn-main" onclick="showPage('shop')">Keep Shopping</button>
+          <button class="btn-small" onclick="showPage('survey')">Leave a Review</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SURVEY PAGE -->
+  <div id="page-survey" class="page hidden">
+    <section>
+      <h2>Share your experience</h2>
+      <p>Got a minute? We'd love to hear what you think — it helps us improve.</p>
+
+      <div id="surveyForm">
+        <div class="form-group">
+          <label>How would you rate your experience?</label>
+          <div class="rating-group" id="ratingGroup">
+            <button class="rating-btn" data-value="1">1</button>
+            <button class="rating-btn" data-value="2">2</button>
+            <button class="rating-btn" data-value="3">3</button>
+            <button class="rating-btn" data-value="4">4</button>
+            <button class="rating-btn" data-value="5">5</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Was the site easy to navigate?</label>
+          <select id="surveyNav">
+            <option value="">Select one</option>
+            <option>Yes, very easy</option>
+            <option>Mostly yes</option>
+            <option>It was okay</option>
+            <option>Not really</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Did the filters help you find what you were looking for?</label>
+          <select id="surveyFilters">
+            <option value="">Select one</option>
+            <option>Yes, very helpful</option>
+            <option>Somewhat helpful</option>
+            <option>Not really</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Any comments? (optional)</label>
+          <textarea id="surveyComments" rows="3" placeholder="Tell us what you think..."></textarea>
+        </div>
+        <button class="btn-main" onclick="submitSurvey()">Submit</button>
+      </div>
+
+      <div id="surveyConfirm" class="hidden">
+        <h3 style="color:#ccc; margin-bottom:10px;">Thanks for the feedback!</h3>
+        <p>We read every response and use it to make the site better.</p>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>Designed by Daniel Gebara · SEG3125 · University of Ottawa · 2026</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
